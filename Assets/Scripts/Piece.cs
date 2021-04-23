@@ -27,7 +27,7 @@ public class Piece : MonoBehaviour
         }
         if(isOverlapping)
         {
-            if (Vector3.Distance(transform.position, startPosition) > 0.05f)
+            if (Vector3.Distance(transform.position, startPosition) > 0.01f)
             {
                 GetComponent<Renderer>().sortingLayerName = "Starting";
                 transform.position = Vector3.Lerp(transform.position, startPosition, 2f * Time.deltaTime);

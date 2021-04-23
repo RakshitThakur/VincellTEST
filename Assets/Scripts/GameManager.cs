@@ -6,10 +6,12 @@ public class GameManager : MonoBehaviour
 {
     int count;
     [SerializeField] GameObject[] pieces;
+    [SerializeField] Canvas won;
     // Start is called before the first frame update
     void Start()
     {
         count = 0;
+        won.enabled = false;
     }
 
     // Update is called once per frame
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
         count++;
         if(count >= 18)
         {
-            Debug.Log("Win");
+            Invoke("WON", 2f);
         }
         Debug.Log(count);
         
@@ -52,5 +54,9 @@ public class GameManager : MonoBehaviour
         {
             obj.GetComponent<Piece>().Restart();
         }
+    }
+    void WON()
+    {
+        won.enabled = true;
     }
 }
