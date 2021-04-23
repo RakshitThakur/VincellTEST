@@ -6,7 +6,6 @@ public class Piece : MonoBehaviour
 {
     Vector3 startPosition;
     [SerializeField] float gridSize = 0.5f;
-    [SerializeField] LayerMask draggable;
     Vector3 mousePos;
     public bool isDragged = false;
     public bool isOverlapping = false;
@@ -14,6 +13,7 @@ public class Piece : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
+        
     }
 
     // Update is called once per frame
@@ -24,15 +24,6 @@ public class Piece : MonoBehaviour
         {
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector2(Mathf.Round(mousePos.x / gridSize) * gridSize, Mathf.Round(mousePos.y / gridSize) * gridSize);
-            Collider2D mouseRay = Physics2D.OverlapBox(mousePos, new Vector2(0.5f, 1), 90f);
-            if(mouseRay!=null)
-            {
-                if(mouseRay.gameObject.CompareTag("Piece") && mouseRay.gameObject.GetComponent<Renderer>().sortingLayerName == "NotPicked")
-                {
-                    isOverlapping = true;
-                }
-
-            }
         }
         if(isOverlapping)
         {
@@ -44,7 +35,6 @@ public class Piece : MonoBehaviour
             else
             {
                 transform.position = startPosition;
-                
                 isOverlapping = false;
             }
         }
@@ -56,25 +46,39 @@ public class Piece : MonoBehaviour
             isDragged = true;
             isOverlapping = false;
             GetComponent<Renderer>().sortingLayerName = "Picked";
-            GetComponent<Collider2D>().enabled = false;
         }
     }
     private void OnMouseUp()
     {
         isDragged = false;
         GetComponent<Renderer>().sortingLayerName = "NotPicked";
-        GetComponent<Collider2D>().enabled = true;
     }
-    /* private void OnTriggerEnter2D(Collider2D collision)
+     private void OnTriggerStay2D(Collider2D collision)
      {
-         if(collision.gameObject.CompareTag("Piece") && collision.gameObject.GetComponent<Renderer>().sortingLayerName == "NotPicked")
-         {
-             isOverlapping = true;
-         }
-     }*/
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(mousePos, 0.6f);
+        if (collision.gameObject.CompareTag("Boundary") && isDragged == false)
+        {
+            isOverlapping = true;
+        }
+        if (collision.gameObject.CompareTag("Piece") && GetComponent<Renderer>().sortingLayerName == "NotPicked")
+        {
+            collision.gameObject.GetComponent<Piece>().isOverlapping = true;
+        }
     }
-
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Piece") && GetComponent<Renderer>().sortingLayerName == "NotPicked")
+        {
+            if(collision.gameObject.GetComponent<Piece>().isDragged == true)
+            {
+                collision.gameObject.GetComponent<Piece>().isOverlapping = false;
+            }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Piece") && GetComponent<Renderer>().sortingLayerName == "NotPicked")
+        {
+            collision.gameObject.GetComponent<Piece>().isOverlapping = true;
+        }
+    }
 }
