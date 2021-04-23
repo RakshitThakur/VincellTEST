@@ -46,12 +46,14 @@ public class Piece : MonoBehaviour
             isDragged = true;
             isOverlapping = false;
             GetComponent<Renderer>().sortingLayerName = "Picked";
+            GetComponent<Renderer>().sortingOrder = 99;
         }
     }
     private void OnMouseUp()
     {
         isDragged = false;
         GetComponent<Renderer>().sortingLayerName = "NotPicked";
+        GetComponent<Renderer>().sortingOrder = 0;
     }
      private void OnTriggerStay2D(Collider2D collision)
      {
@@ -79,6 +81,10 @@ public class Piece : MonoBehaviour
         if (collision.gameObject.CompareTag("Piece") && GetComponent<Renderer>().sortingLayerName == "NotPicked")
         {
             collision.gameObject.GetComponent<Piece>().isOverlapping = true;
+        }
+        if (collision.gameObject.CompareTag("Boundary") && isDragged == false)
+        {
+            isOverlapping = true;
         }
     }
 }
