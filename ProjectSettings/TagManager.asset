@@ -46,9 +46,9 @@ TagManager:
   - name: NotPicked
     uniqueID: 119578897
     locked: 0
-  - name: Picked
-    uniqueID: 3988092669
-    locked: 0
   - name: Starting
     uniqueID: 2819703675
+    locked: 0
+  - name: Picked
+    uniqueID: 3988092669
     locked: 0

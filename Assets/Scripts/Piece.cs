@@ -39,6 +39,10 @@ public class Piece : MonoBehaviour
             }
         }
     }
+    public void Restart()
+    {
+        isOverlapping = true;
+    }
     private void OnMouseOver()
     {
         if(Input.GetMouseButtonDown(0))

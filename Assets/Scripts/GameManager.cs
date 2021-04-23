@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     int count;
+    [SerializeField] GameObject[] pieces;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,16 +24,17 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Win");
         }
+        Debug.Log(count);
         
     }
     void UnSolve()
     {
         count--;
-        
+        Debug.Log(count);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Piece"))
+        if (collision.gameObject.CompareTag("Piece"))
         {
             Solve();
         }
@@ -42,6 +44,13 @@ public class GameManager : MonoBehaviour
         if (collision.gameObject.CompareTag("Piece"))
         {
             UnSolve();
+        }
+    }
+    public void ResetLevel()
+    {
+        foreach(GameObject obj in pieces)
+        {
+            obj.GetComponent<Piece>().Restart();
         }
     }
 }
