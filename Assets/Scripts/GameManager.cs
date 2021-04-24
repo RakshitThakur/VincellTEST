@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     int count;
     Bloom bloom;
     bool isWinning = false;
-
+    Collider2D finalPiece;
 
     [SerializeField] GameObject[] pieces;
     [SerializeField] GameObject globalLight;
@@ -39,6 +39,13 @@ public class GameManager : MonoBehaviour
             globalLight.GetComponent<Light2D>().intensity = Mathf.Lerp(globalLight.GetComponent<Light2D>().intensity,1.8f,0.5f * Time.deltaTime);
             bloom.intensity.value = 100;
         }
+        if(finalPiece!=null)
+        {
+            if(finalPiece.GetComponent<Piece>().isDragged == false && finalPiece.GetComponent<Renderer>().sortingLayerName == "NotPicked")
+            {
+                Solve();
+            }
+        }
     }
     void Solve()
     {
@@ -59,7 +66,15 @@ public class GameManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Piece"))
         {
+            if(count == 17)
+            {
+                finalPiece = collision;
+            }
+            else
+            {
+
             Solve();
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
