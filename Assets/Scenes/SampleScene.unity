@@ -1497,7 +1497,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -123
   m_Sprite: {fileID: -997972493423046422, guid: 8ed4166f547ddde4d925296d03ec415a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3390,7 +3390,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -109
   m_Sprite: {fileID: 5956645539897127630, guid: 8c436f61c9be1a14b9ae33d49e6be038, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4000,6 +4000,7 @@ MonoBehaviour:
   post: {fileID: 1793545022}
   caveDoor: {fileID: 767979366}
   reset: {fileID: 1185302968}
+  boundary: {fileID: 1819040762}
 --- !u!61 &2012812942
 BoxCollider2D:
   m_ObjectHideFlags: 0

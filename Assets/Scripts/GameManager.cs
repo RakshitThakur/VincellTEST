@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Volume post;
     [SerializeField] GameObject caveDoor;
     [SerializeField] Canvas reset;
-    
+    [SerializeField] GameObject boundary;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         {
             bloom.intensity.value = 0;
         }
+        boundary.SetActive(true);
     }
 
     // Update is called once per frame
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
     {
         if(isWinning)
         {
+            boundary.SetActive(false);
             foreach (GameObject obj in pieces)
             {
                 obj.GetComponent<Piece>().Restart(isWinning);
