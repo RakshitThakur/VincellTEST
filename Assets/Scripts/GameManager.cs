@@ -1,30 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
+
 
 public class GameManager : MonoBehaviour
 {
     int count;
+    Bloom bloom;
+    bool isWinning = false;
+
+
     [SerializeField] GameObject[] pieces;
-    [SerializeField] Canvas won;
+    [SerializeField] GameObject globalLight;
+    [SerializeField] Volume post;
+    [SerializeField] GameObject caveDoor;
+    [SerializeField] Canvas reset;
+    
     // Start is called before the first frame update
     void Start()
     {
         count = 0;
-        won.enabled = false;
+        reset.enabled = true;
+        if (post.profile.TryGet<Bloom>(out bloom))
+        {
+            bloom.intensity.value = 0;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(isWinning)
+        {
+            globalLight.GetComponent<Light2D>().intensity = Mathf.Lerp(globalLight.GetComponent<Light2D>().intensity,1.8f,0.5f * Time.deltaTime);
+            bloom.intensity.value = 100;
+        }
     }
     void Solve()
     {
         count++;
         if(count >= 18)
         {
-            Invoke("WON", 2f);
+            isWinning = true;
+            reset.enabled = false;
+            Invoke("Won",2f);
+            caveDoor.GetComponent<CaveDoor>().Invoke("MoveCave", 3f);
         }
     }
     void UnSolve()
@@ -49,13 +72,22 @@ public class GameManager : MonoBehaviour
     {
         foreach(GameObject obj in pieces)
         {
-            obj.GetComponent<Piece>().Restart();
+            obj.GetComponent<Piece>().Restart(isWinning);
         }
-        won.enabled = false;
+        isWinning = false;
+        globalLight.GetComponent<Light2D>().intensity = 1;
+        bloom.intensity.value = 0;
+    }
+    void Won()
+    {
+        if(isWinning)
+        {
+            foreach (GameObject obj in pieces)
+            {
+                obj.GetComponent<Piece>().Restart(isWinning);
+            }
+        }
         
     }
-    void WON()
-    {
-        won.enabled = true;
-    }
+   
 }

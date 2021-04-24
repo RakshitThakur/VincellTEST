@@ -9,6 +9,7 @@ public class Piece : MonoBehaviour
     Vector3 mousePos;
     public bool isDragged = false;
     public bool isOverlapping = false;
+    public bool completed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +30,10 @@ public class Piece : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, startPosition) > 0.01f)
             {
-                GetComponent<Renderer>().sortingLayerName = "Starting";
+                if(!completed)
+                {
+                    GetComponent<Renderer>().sortingLayerName = "Starting";
+                }
                 transform.position = Vector3.Lerp(transform.position, startPosition, 2f * Time.deltaTime);
             }
             else
@@ -39,9 +43,10 @@ public class Piece : MonoBehaviour
             }
         }
     }
-    public void Restart()
+    public void Restart(bool completed)
     {
         isOverlapping = true;
+        this.completed = completed;
     }
     private void OnMouseOver()
     {
@@ -91,4 +96,9 @@ public class Piece : MonoBehaviour
             isOverlapping = true;
         }
     }
+    public void Done()
+    {
+        completed = true;
+    }
+    
 }
