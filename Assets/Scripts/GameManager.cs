@@ -26,13 +26,10 @@ public class GameManager : MonoBehaviour
         {
             Invoke("WON", 2f);
         }
-        Debug.Log(count);
-        
     }
     void UnSolve()
     {
         count--;
-        Debug.Log(count);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -54,6 +51,8 @@ public class GameManager : MonoBehaviour
         {
             obj.GetComponent<Piece>().Restart();
         }
+        won.enabled = false;
+        
     }
     void WON()
     {
