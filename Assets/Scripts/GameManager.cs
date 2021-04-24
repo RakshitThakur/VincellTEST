@@ -34,14 +34,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isWinning)
+        if (isWinning)
         {
-            globalLight.GetComponent<Light2D>().intensity = Mathf.Lerp(globalLight.GetComponent<Light2D>().intensity,1.8f,0.5f * Time.deltaTime);
+            globalLight.GetComponent<Light2D>().intensity = Mathf.Lerp(globalLight.GetComponent<Light2D>().intensity, 1.8f, 0.5f * Time.deltaTime);
             bloom.intensity.value = 100;
         }
-        if(finalPiece!=null)
+        if (finalPiece != null)
         {
-            if(finalPiece.GetComponent<Piece>().isDragged == false && finalPiece.GetComponent<Renderer>().sortingLayerName == "NotPicked")
+            if (finalPiece.GetComponent<Piece>().isDragged == false && finalPiece.GetComponent<Renderer>().sortingLayerName == "NotPicked")
             {
                 Solve();
             }
@@ -50,11 +50,11 @@ public class GameManager : MonoBehaviour
     void Solve()
     {
         count++;
-        if(count >= 18)
+        if (count >= 18)
         {
             isWinning = true;
             reset.enabled = false;
-            Invoke("Won",2f);
+            Invoke("Won", 2f);
             caveDoor.GetComponent<CaveDoor>().Invoke("MoveCave", 3f);
         }
     }
@@ -66,14 +66,13 @@ public class GameManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Piece"))
         {
-            if(count == 17)
+            if (count == 17)
             {
                 finalPiece = collision;
             }
             else
             {
-
-            Solve();
+                Solve();
             }
         }
     }
@@ -81,12 +80,22 @@ public class GameManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Piece"))
         {
-            UnSolve();
+
+            if (count == 17)
+            {
+                finalPiece = null;
+            }
+            else
+            {
+
+                UnSolve();
+            }
+
         }
     }
     public void ResetLevel()
     {
-        foreach(GameObject obj in pieces)
+        foreach (GameObject obj in pieces)
         {
             obj.GetComponent<Piece>().Restart(isWinning);
         }
@@ -96,7 +105,7 @@ public class GameManager : MonoBehaviour
     }
     void Won()
     {
-        if(isWinning)
+        if (isWinning)
         {
             boundary.SetActive(false);
             foreach (GameObject obj in pieces)
@@ -104,7 +113,7 @@ public class GameManager : MonoBehaviour
                 obj.GetComponent<Piece>().Restart(isWinning);
             }
         }
-        
+
     }
-   
+
 }
